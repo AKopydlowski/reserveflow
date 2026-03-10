@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ReserveFlow
 
-## Getting Started
+A modern and flexible appointment and booking management system for service-based businesses.
 
-First, run the development server:
+ReserveFlow is a portfolio project built to support different types of businesses such as barbers, tutors, dietitians, mechanics, and consultants.  
+The core idea is to provide a reusable scheduling engine with clients, services, resources, appointments, availability rules, and admin management.
+
+## Project goals
+
+- build a professional portfolio-ready full-stack application
+- design a clean and scalable architecture
+- create a flexible booking domain for multiple industries
+- show practical programming skills beyond basic CRUD
+- develop the project step by step in a real-world style
+
+## Planned MVP
+
+- admin dashboard
+- clients management
+- services management
+- resources / staff management
+- appointment creation and editing
+- appointment statuses
+- working hours
+- availability validation
+- conflict prevention for overlapping appointments
+- appointment history
+- filtering and search
+
+## Tech stack
+
+- Next.js
+- TypeScript
+- React
+- Tailwind CSS
+- App Router
+- Prisma
+- SQLite
+- Git + GitHub
+- MIT License
+
+## Planned architecture
+
+The application is being designed as a modular scheduling platform with a shared booking core that can be adapted to different service businesses.
+
+Main domain areas:
+- clients
+- services
+- resources
+- appointments
+- availability
+- dashboard
+
+## Status
+
+Project in active development.
+
+Current stage:
+- project planning
+- repository setup
+- architecture design
+- database model preparation
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
