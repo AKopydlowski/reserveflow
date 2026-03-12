@@ -1,0 +1,132 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum ResourceType {
+  STAFF
+  ROOM
+  EQUIPMENT
+}
+
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELED
+  NO_SHOW
+}
+
+model Client {
+  id           String        @id @default(cuid())
+  firstName    String
+  lastName     String
+  email        String?
+  phone        String?
+  notes        String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  appointments Appointment[]
+
+  @@index([lastName, firstName])
+}
+
+model Service {
+  id              String            @id @default(cuid())
+  name            String
+  description     String?
+  durationMin     Int
+  price           Int?
+  bufferBeforeMin Int               @default(0)
+  bufferAfterMin  Int               @default(0)
+  isActive        Boolean           @default(true)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  resources       ServiceResource[]
+  appointments    Appointment[]
+
+  @@index([name])
+}
+
+model Resource {
+  id            String            @id @default(cuid())
+  name          String
+  type          ResourceType
+  color         String?
+  isActive      Boolean           @default(true)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+
+  services      ServiceResource[]
+  workingHours  WorkingHour[]
+  timeOffs      TimeOff[]
+  appointments  Appointment[]
+
+  @@index([type, name])
+}
+
+model ServiceResource {
+  serviceId   String
+  resourceId  String
+
+  service     Service   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  resource    Resource  @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@id([serviceId, resourceId])
+}
+
+model Appointment {
+  id           String             @id @default(cuid())
+  clientId     String
+  serviceId    String
+  resourceId   String
+  status       AppointmentStatus  @default(PENDING)
+  startAt      DateTime
+  endAt        DateTime
+  notes        String?
+  cancelReason String?
+  canceledAt   DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+
+  client       Client   @relation(fields: [clientId], references: [id], onDelete: Restrict)
+  service      Service  @relation(fields: [serviceId], references: [id], onDelete: Restrict)
+  resource     Resource @relation(fields: [resourceId], references: [id], onDelete: Restrict)
+
+  @@index([startAt])
+  @@index([resourceId, startAt, endAt])
+  @@index([clientId, startAt])
+  @@index([status, startAt])
+}
+
+model WorkingHour {
+  id          String   @id @default(cuid())
+  resourceId  String
+  dayOfWeek   Int
+  startTime   String
+  endTime     String
+  isActive    Boolean  @default(true)
+
+  resource    Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@index([resourceId, dayOfWeek])
+}
+
+model TimeOff {
+  id          String   @id @default(cuid())
+  resourceId  String
+  startAt     DateTime
+  endAt       DateTime
+  reason      String?
+
+  resource    Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+
+  @@index([resourceId, startAt, endAt])
+}
